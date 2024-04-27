@@ -7,8 +7,9 @@ public class MyApplication {
         arr.add(4);
         arr.add(5);
         arr.add(6);
+        arr.removeFirst();
         arr.printArray();
-        arr.addLast(1);
-        arr.printArray();
+
+        System.out.println(arr.size());
     }
 }

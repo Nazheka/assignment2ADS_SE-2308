@@ -32,45 +32,45 @@ public class MyArrayList <T> implements MyList <T> {
             arr[index] = item;
         } catch (Exception e) {
             System.out.println("Wrong index");
-        } finally {
-            System.out.println("New value was successfully set");
         }
     }
 
     @Override
     public void add(int index, T item) {
-        if (index < 0 || index >= arr.length)  {
+        if (index < 0 || index >= size)  {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
         }
-        T[] newArr = (T[]) new Object[arr.length + 1];
+        T[] newArr = (T[]) new Object[arr.length * 2];
         for (int i = 0; i < index; i++) {
             newArr[i] = arr[i];
         }
         newArr[index] = item;
-        for (int i = index; i < arr.length; i++) {
-            newArr[i + 1] = arr[i];
+        for (int i = index + 1; i <= size; i++) {
+            newArr[i] = arr[i - 1];
         }
+        size++;
         arr = newArr;
     }
 
     @Override
     public void addFirst(T item) {
-
-    }
-
-    @Override
-    public void addLast(T item) {
-        T[] newArr = (T[]) new Object[arr.length + 1];
-        for (int i = 0; i < arr.length; i++) {
-            newArr[i] = arr[i];
+        T[] newArr = (T[]) new Object[arr.length * 2];
+        newArr[0] = item;
+        for (int i = 1; i <= size; i++) {
+            newArr[i] = arr[i - 1];
         }
-        newArr[newArr.length - 1] = item;
+        size++;
         arr = newArr;
     }
 
     @Override
+    public void addLast(T item) {
+        add(item);
+    }
+
+    @Override
     public T get(int index) {
-        if (index < 0 || index >= arr.length)  {
+        if (index < 0 || index >= size)  {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
         }
         return arr[index];
@@ -78,27 +78,44 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public T getFirst() {
-        return null;
+        if (size == 0) {
+            throw new IndexOutOfBoundsException("There is no elements in the ArrayList");
+        }
+        return arr[0];
     }
 
     @Override
     public T getLast() {
-        return null;
+        if (size == 0) {
+            throw new IndexOutOfBoundsException("There is no elements in the ArrayList");
+        }
+        return arr[size - 1];
     }
 
     @Override
     public void remove(int index) {
-
+        if (index < 0 || index >= size)  {
+            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
+        }
+        T[] newArr = (T[]) new Object[arr.length];
+        for (int i = 0; i < index; i++) {
+            newArr[i] = arr[i];
+        }
+        for (int i = index; i < size - 1; i++) {
+            newArr[i] = arr[i + 1];
+        }
+        size--;
+        arr = newArr;
     }
 
     @Override
     public void removeFirst() {
-
+        remove(0);
     }
 
     @Override
     public void removeLast() {
-
+        remove(size - 1);
     }
     public void printArray() {
         for (int i = 0; i < size; i++) {
@@ -114,36 +131,55 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public int indexOf(Object object) {
-        return 0;
+        for (int i = 0; i < size; i++) {
+            if (arr[i].equals(object)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        return 0;
+        int last = -1;
+        for (int i = 0; i < size; i++) {
+            if (arr[i].equals(object)) {
+                last = i;
+            }
+        }
+        return last;
     }
 
     @Override
     public boolean exists(Object object) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i].equals(object)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        T[] newArr = (T[]) new Object[arr.length];
+        for (int i = 0; i < size; i++) {
+            newArr[i] = arr[i];
+        }
+        return newArr;
     }
 
     @Override
     public void clear() {
-
+        T[] newArr = (T[]) new Object[10];
+        size = 0;
+        arr = newArr;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return null;
-    }
+
 }
