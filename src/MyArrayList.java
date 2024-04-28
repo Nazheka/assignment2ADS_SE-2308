@@ -37,9 +37,7 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public void add(int index, T item) {
-        if (index < 0 || index >= size)  {
-            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
-        }
+        checkIndex(index, size);
         T[] newArr = (T[]) new Object[arr.length * 2];
         for (int i = 0; i < index; i++) {
             newArr[i] = arr[i];
@@ -54,13 +52,7 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public void addFirst(T item) {
-        T[] newArr = (T[]) new Object[arr.length * 2];
-        newArr[0] = item;
-        for (int i = 1; i <= size; i++) {
-            newArr[i] = arr[i - 1];
-        }
-        size++;
-        arr = newArr;
+        add(0, item);
     }
 
     @Override
@@ -70,33 +62,25 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size)  {
-            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
-        }
+        checkIndex(index, size);
         return arr[index];
     }
 
     @Override
     public T getFirst() {
-        if (size == 0) {
-            throw new IndexOutOfBoundsException("There is no elements in the ArrayList");
-        }
+        checkIndex(0, size);
         return arr[0];
     }
 
     @Override
     public T getLast() {
-        if (size == 0) {
-            throw new IndexOutOfBoundsException("There is no elements in the ArrayList");
-        }
+        checkIndex(0, size);
         return arr[size - 1];
     }
 
     @Override
     public void remove(int index) {
-        if (index < 0 || index >= size)  {
-            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
-        }
+        checkIndex(index, size);
         T[] newArr = (T[]) new Object[arr.length];
         for (int i = 0; i < index; i++) {
             newArr[i] = arr[i];
@@ -171,7 +155,7 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public void clear() {
-        T[] newArr = (T[]) new Object[10];
+        T[] newArr = (T[]) new Object[5];
         size = 0;
         arr = newArr;
     }
@@ -182,4 +166,13 @@ public class MyArrayList <T> implements MyList <T> {
     }
 
 
+    @Override
+    public Iterator<T> iterator() {
+        return null;
+    }
+    private void checkIndex(int index, int size) {
+        if (index < 0 || index >= size)  {
+            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds");
+        }
+    }
 }
