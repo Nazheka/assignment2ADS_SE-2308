@@ -82,20 +82,19 @@ public class MyLinkedList<T> implements MyList<T>{
             current.next.previous = newNode;
             current.next = newNode;
         }
+        size++;
     }
 
     @Override
     public void addFirst(T item) {
         checkIndex(0);
         add(0, item);
-        size++;
     }
 
     @Override
     public void addLast(T item) {
         checkIndex(0);
         add(item);
-        size++;
     }
 
     @Override
